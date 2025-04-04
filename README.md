@@ -1,6 +1,21 @@
 # ELApy
 ELApy is the python package provides the inferface of energy landscape analysis.
 
+# Installation
+ELApy is a python library that relies on the custom cpp modules based on those originally established for rELA (). Therefore, the custom cpp modules are required to be built by CMake build with integrating "carma package". See the following instruction for details.
+
+It can be installed using:
+```
+echo "export pybind11_DIR=/Users/hoge/miniforge3/lib/python3.12/site-packages/pybind11" >> ~/.zshrc
+echo “PATH=$PATH:$pybind11_DIR” >> ~/.zshrc
+cd cpp
+mkdir build && cd build
+cmake ..
+make
+cd ..
+find ./build -name”*.so” | xargs -I% mv % .
+```
+
 Reference
 -----------
 Suzuki, K., Nakaoka, S., Fukuda, S., & Masuya, H. (2021).

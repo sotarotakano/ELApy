@@ -1,17 +1,18 @@
+import sys
+sys.path.append("..") 
 import numpy as np
 import pandas as pd
 import math
 import itertools as it
 import time
-import sys
+
 import os
 import copy
-from multiprocessing import Pool
 import itertools as it
 import time
 
 # import C++ modules
-from ELApy.cpp.ELA import *
+from cpp.ELA import *
 
 # other common modules
 import warnings

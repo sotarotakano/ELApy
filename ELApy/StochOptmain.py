@@ -1,11 +1,13 @@
 import os
+import sys
+sys.path.append("..") 
 
 os.environ["OMP_NUM_THREADS"] = "1"
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 #os.environ["MKL_NUM_THREADS"] = "1"
 
 
-from multiprocessing import Pool
+from multiprocessing import get_context
 import numpy as np
 import pandas as pd
 # other common modules
@@ -13,7 +15,7 @@ import warnings
 import sys
 
 # import C++ modules
-from ELApy.cpp.StochOpt import *
+from cpp.StochOpt import *
 
 
 def simpleSA_multi(args):
@@ -298,7 +300,7 @@ def SimpleSA(ocmatrix, we = 0.01, totalitr = 1000, lmd = 0.01, serials = 1, itv 
         J =  params_end[:,1:-2]
         upd = params[:,-2:]
     else:
-        with Pool(processes=threads) as pool:
+        with get_context("fork").Pool(processes=threads) as pool:
             args = ([ocmatrix, we, totalitr, lmd, itv, runadamW, Sparse] for _ in range(serials))
             packed_results = pool.map(simpleSA_multi,args)
         if getall:
@@ -394,7 +396,7 @@ def fullSA(ocmatrix, envmatrix, we = 0.01, totalitr = 1000, lmd = 0.01, serials 
         J =  params_end[:,envmatrix.shape[1]+1:-2]
         upd = params[:,-2:]
     else:
-        with Pool(processes=threads) as pool:
+        with get_context("fork").Pool(processes=threads) as pool:
             args = ([ocmatrix, envmatrix, we, totalitr, lmd, itv, runadamW, Sparse] for _ in range(serials))
             packed_results = pool.map(fullSA_multi,args)
         if getall:

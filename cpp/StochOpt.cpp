@@ -17,27 +17,26 @@ namespace py = pybind11;
 //randomly pick out a integer from an uniform distribution
 int rand_uniform_int(int min, int max) {
     static std::mt19937 gen(std::random_device{}()); 
-    // std::random_device rd;
-    // std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dis(min, max);
 
     return dis(gen);
 }
 
 // log model for simple SA
-inline arma::mat LogmodelSimplecpp(arma::mat m_mat, const arma::mat& a_mat, const arma::mat& b_mat){
-  m_mat *= b_mat;
-  const arma::mat& res_mat = 1/(exp(-a_mat - m_mat.each_row())+1);
-  
-  return res_mat;
+inline arma::mat LogmodelSimplecpp(arma::mat m_mat, const arma::mat& a_mat, const arma::mat& b_mat) {
+    //m_mat *= b_mat;
+    arma::mat res = m_mat*b_mat;
+    res.each_row() += a_mat;                             
+    res = 1.0 / (arma::exp(-res) + 1.0);
+    return res;
 }
 
 // log model for full SA
 inline arma::mat Logmodelcpp(arma::mat m,  const arma::mat& alpha, const arma::mat& beta){
   
   m *= beta;
-  const arma::mat& res = 1/(exp(-alpha - m)+1);
-  
+  arma::mat res = 1.0/(arma::exp(-alpha - m)+1.0); 
+
   return res;
 }
 
@@ -85,6 +84,7 @@ py::array_t<double> simpleSA_cpp(const py::array_t<double>& ocData_arr, const do
 const int& totalit=1000,const double& lambda=0.01, const int& intv=100, bool runadamW=true, bool sparse=true){
   // ========================================= //
   // -- Initial parameter setting
+  py::gil_scoped_acquire gil;
   arma::mat ocData = carma::arr_to_mat<double>(ocData_arr);
   //const double& maxInt=50000;
   //const double& momentum=0.3;
@@ -279,6 +279,7 @@ void simpleSA_cpp_void(const py::array_t<double>& ocData_arr,const std::string& 
                        const double& qTh=0.00001){
   // ========================================= //
   // -- Initial parameter setting
+  py::gil_scoped_acquire gil;
   arma::mat ocData = carma::arr_to_mat<double>(ocData_arr);
   const double& maxInt=50000;
   //const double& momentum=0.3;
@@ -369,6 +370,7 @@ py::array_t<double> fullSA_cpp(const py::array_t<double>& ocData_arr, const py::
                                  
   // ========================================= //
   // -- Initial parameter setting
+  py::gil_scoped_acquire gil;
   arma::mat ocData = carma::arr_to_mat<double>(ocData_arr);
   arma::mat envData = carma::arr_to_mat<double>(envData_arr);
   double learningrate0 = 0.05;

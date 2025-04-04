@@ -2,9 +2,11 @@
 '''
 The ELA module for running energy landscape anaysis.
 
-All modules basically work with C++ ELA functions.
+All modules basically work with C++ ELA functions
+from rELA
 '''
-
+import sys
+sys.path.append("..") 
 import os
 import copy
 import numpy as np
@@ -13,7 +15,7 @@ import math
 import time
 from os.path import join
 import datetime
-from multiprocessing import Pool
+from multiprocessing import get_context
 import itertools as it
 from ELApy.ELAutility import Formatting, reformatting_result, EnvRescale
 from ELApy.StochOptmain import Findbp, SimpleSA, fullSA
@@ -40,7 +42,7 @@ import warnings;
 #warnings.simplefilter('ignore')
 
 # import C++ modules
-from ELApy.cpp.ELA import *
+from cpp.ELA import *
 
 
 
@@ -188,7 +190,7 @@ class ELA:
     """
 
     # Functions
-    def __init__(self, abdata = [], envdata=[], threads = 1, serials = 16, 
+    def __init__(self, abdata = [], envdata=[], threads = 1, 
                  savedir : str ='', autorun = False, eid : str = ""):
 
         # define instance variables
@@ -210,7 +212,6 @@ class ELA:
                            "you can set manually by ela.envdata = envmatrix <- (pandas.DataFrame)")
         
         self.envdata = envdata
-        self.serials = serials
         self.threads = threads
 
         if autorun:
@@ -304,7 +305,7 @@ class ELA:
     
     
 
-    def run_simpleSA(self, we = 0.001, lmd = 0.4,totalitr = 4000, bestparams = True):
+    def run_simpleSA(self, we = 0.001, lmd = 0.4,totalitr = 4000, serials = 1, bestparams = True):
         if bestparams:
             if "best_params" not in dir(self):
                 raise AttributeError("The best hyper parameters does not exist for this ELA object." + \
@@ -320,12 +321,12 @@ class ELA:
             runadamW = True 
 
         self.h, self.J, self.upd = SimpleSA(self.ocmatrix, we, totalitr, lmd, 
-                                            self.serials, 100, self.threads, 
+                                            serials, 100, self.threads, 
                                             runadamW = runadamW, 
                                             Sparse = Sparse, getall=False)
 
 
-    def run_fullSA(self, we = 0.001, lmd = 0.4, totalitr = 4000, bestparams = True):
+    def run_fullSA(self, we = 0.001, lmd = 0.4, totalitr = 4000, serials = 1, bestparams = True):
         if bestparams:
             if "best_params" not in dir(self):
                 raise AttributeError("The best hyper parameters does not exist for this ELA object." + \
@@ -343,14 +344,14 @@ class ELA:
 
         if len(self.envmatrix) > 0:
             self.h, self.g, self.J, self.upd = fullSA(self.ocmatrix, self.envmatrix, 
-                                                      we, totalitr, lmd, self.serials, 
+                                                      we, totalitr, lmd, serials, 
                                                       100, self.threads, 
                                                       runadamW = runadamW, 
                                                       Sparse = Sparse, getall=False)
         else:
             warnings.warn("No environmental matrix is specified... running normalELA")
             self.h, self.J, self.upd = SimpleSA(self.ocmatrix, we, totalitr, lmd, 
-                                            self.serials, 100, self.threads, 
+                                            serials, 100, self.threads, 
                                             runadamW = runadamW, 
                                             Sparse = Sparse, getall=False)
 
@@ -421,7 +422,7 @@ class ELA:
                 #print("Multiprocessing is applied to SteepestDescent for the current trial...")
                 ss_array = np.zeros(n_xinit*(Nspecies+2)).reshape(n_xinit,Nspecies+2)
 
-                with Pool(processes=min(8,self.threads)) as pool:
+                with get_context("fork").Pool(processes=min(8,self.threads)) as pool:
                     args = ([self.J,self.h] for i in range(n_xinit))
                     results = pool.map(_SteepestDescent_multi,args)
                     
@@ -476,7 +477,7 @@ class ELA:
                         s2 = comb2[i]
                         args.append([np.vstack([self.J,self.h,s1,s2]),tmax])
 
-                    with Pool(processes=min(int(len(args)/8),self.threads)) as pool:
+                    with get_context("fork").Pool(processes=min(int(len(args)/8),self.threads)) as pool:
                         results = pool.map(_FindTipps_multi,args)
                     
                     for i,result in enumerate(results):
@@ -629,11 +630,24 @@ class ELA:
     
     # Visualization
     def get_2d_summary(self,method="NMDS",ShowPlot=True):
+        '''
+        Parameters
+        -----------
+        method : str
+            Users can define the type of low-dimensionalization from
+            "NMDS"(default), "MDS", or "PCA".
+        
+        ShowPlot: bool
+            If true, the result of low-dimensionalization is visualized
+            by 2-dimension plot. 
+        '''
+
         if "stable_states_pruned" not in dir(self):
             raise AttributeError("pruned stable states summary does not exist ..." + \
                             "Please run ELA.ELpruning() first.")
         _2d_summary = twodimension_summary(self.ocmatrix,self.h,self.J,
-                                               self.stable_states_pruned,method="NMDS",ShowPlot=True)
+                                               self.stable_states_pruned,
+                                               method=method,ShowPlot=ShowPlot)
         return _2d_summary 
     
 
@@ -647,9 +661,9 @@ class ELA:
         return graphobj
     
     def draw_PCplot(self, figname = "PCplot.pdf"):
-        PCplot_df = PCplot2(self.ocmatrix,self.h,self.J,savefig = True,ShowFigure=True,
-                            filename=join(self.savedir,figname))
-        return PCplot_df
+        PCplot2(self.ocmatrix,self.h,self.J,savefig = True,ShowFigure=True,
+                filename=join(self.savedir,figname))
+        return 
     
     def get_gradELA_diagram(self):
         if "gradELA_summary" not in dir(self):

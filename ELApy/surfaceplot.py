@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 __author__ = 'Sotaro Takano and Kenta Suzuki'
-__version__ = '1.0.0'
+__version__ = '0.0.1'
 
 '''Functions for visualizing energy landscape by surface or contour plots'''
 

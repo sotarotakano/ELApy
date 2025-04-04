@@ -210,12 +210,12 @@ def DisconnectivityGraph(grobj, nspecies, DG_sample='DG_sample',filename="Discon
                              colormap='brg', s=100)
     for k, v in jun.iterrows():
        hgn0.annotate('C' + str(int(v.iloc[3])), xy=(v.iloc[2],v.iloc[1]), 
-                     xytext=(v.iloc[2] + 0.05, v.iloc[1] + 0.15),size=12, weight='bold')
+                     xytext=(v[2] + 0.05, v[1] + 0.15),size=12, weight='bold')
     hgn1 = jen.plot.scatter(ax=ax, x='node2xposi', y='energy', c='black', s=100)
     
     for k, v in jen.iterrows():
-       hgn1.annotate('C' + str(int(v.iloc[3])), xy=(v.iloc[2],v.iloc[1]), 
-                     xytext=(v.iloc[2] + 0.05, v.iloc[1] + 0.15),size=12, weight='bold')
+       hgn1.annotate('C' + str(int(v[3])), xy=(v[2],v[1]), 
+                     xytext=(v[2] + 0.05, v[1] + 0.15),size=12, weight='bold')
     # Pie
     ax_sub = pd.Series(index=grobj.index)
     (xmin, xmax) = (grobj['node2xposi'].min(), grobj['node2xposi'].max())
@@ -260,7 +260,7 @@ def PCplot2(ocmatrix,hest,Jest,savefig = True,ShowFigure=True,filename="PCplot2.
     
     oc_summary_PCA = pd.DataFrame(0.0,index=ocmatrix.index,
                                   columns=["Energy","PC1","PC2","sstate","sstate_energy"])
-    oc_summary_PCA["sstate"] = oc_summary_PCA["sstate"].astype(str)
+    oc_summary_PCA["sstate"] = oc_summary_PCA["sstate"].astype(int)
     PCscore = pd.DataFrame(pca.transform(ocmatrix),index=ocmatrix.index,
                            columns=['PC' + str(n+1) for n in range(len(ocmatrix.columns))])
     

@@ -102,7 +102,6 @@ py::array_t<double> SteepestDescent_cpp_ind(const py::array_t<double>& params_ar
   return res_arr;
 }
 
-
 ////////////////////////////////////////////////////////////
 arma::mat SteepestDescent_cpp(arma::rowvec state, arma::rowvec alpha, arma::mat beta){
   
@@ -430,10 +429,8 @@ std::unordered_map<T, int> tablecpp(const std::vector<T>& data){
 
 //randomly pick out a integer from an uniform distribution
 int rand_uniform_int(int min, int max) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    static std::mt19937 gen(std::random_device{}()); 
     std::uniform_int_distribution<int> dis(min, max);
-
     return dis(gen);
 }
 

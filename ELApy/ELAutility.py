@@ -11,7 +11,7 @@ import itertools as it
 import time
 
 # import C++ modules
-from ELApy.build.ELA import *
+from ELApy.cpp.ELA import *
 
 # other common modules
 import warnings

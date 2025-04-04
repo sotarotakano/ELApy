@@ -40,7 +40,7 @@ import warnings;
 #warnings.simplefilter('ignore')
 
 # import C++ modules
-from ELApy.build.ELA import *
+from ELApy.cpp.ELA import *
 
 
 

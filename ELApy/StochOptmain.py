@@ -13,7 +13,7 @@ import warnings
 import sys
 
 # import C++ modules
-from ELApy.build.StochOpt import *
+from ELApy.cpp.StochOpt import *
 
 
 def simpleSA_multi(args):

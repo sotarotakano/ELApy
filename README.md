@@ -3,6 +3,12 @@
 # ELApy
 ELApy provides the interface of energy landscape analysis ([kecosz](https://github.com/kecosz/rELA)).
 
+Reference
+-----------
+Suzuki, K., Nakaoka, S., Fukuda, S., & Masuya, H. (2021).
+"Energy landscape analysis elucidates the multistability of ecological communities 
+across environmental gradients." Ecological Monographs.
+
 # Installation
 ELApy is a python library that relies on the custom cpp modules based on the Rpackage([hiroakif93](https://github.com/hiroakif93)). 
 The custom cpp modules are required to be built by CMake build with integrating "carma package" . See the following instruction for details.
@@ -93,9 +99,3 @@ If there is no error message, then everything is all set for you!
 # Running with Google colab
 If you want to try ELApy without the setup on your local environment, 
 the easiest way is to run "ELApy_tutorial_colab.ipynb" using Google colab.
-
-Reference
------------
-Suzuki, K., Nakaoka, S., Fukuda, S., & Masuya, H. (2021).
-"Energy landscape analysis elucidates the multistability of ecological communities 
-across environmental gradients." Ecological Monographs.

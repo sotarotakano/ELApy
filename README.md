@@ -1,5 +1,7 @@
+[![License](https://img.shields.io/badge/License-BSD_2--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
+
 # ELApy
-ELApy is the python package provides the interface of energy landscape analysis.
+ELApy is the python package provides the interface of energy landscape analysis ([kecosz](https://github.com/kecosz/rELA)).
 
 # Installation
 ELApy is a python library that relies on the custom cpp modules based on the Rpackage([hiroakif93](https://github.com/hiroakif93)). The custom cpp modules are required to be built by CMake build with integrating "carma package" . See the following instruction for details.

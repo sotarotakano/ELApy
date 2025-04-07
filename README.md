@@ -16,7 +16,7 @@ The custom cpp modules are required to be built by CMake build with integrating 
 
 ### Step 1. Installing compiler and cpp packages by HomeBrew.
 
-## For Mac (arm64)
+#### For Mac (arm64)
 An installation of HomeBrew (if not installed)
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -27,7 +27,7 @@ Compiler and cpp libraries are available on HomeBrew.
 brew install gcc armadillo
 ```
 
-## For Linux
+#### For Linux
 ```shell
 sudo apt -y install libtool texinfo libarmadillo-dev
 ```

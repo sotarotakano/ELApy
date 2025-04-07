@@ -28,17 +28,18 @@ sudo apt -y install libtool texinfo libarmadillo-dev
 
 
 ### Step 2. Installing python libraries
-ELApy is sensitive to the versions of numpy and pandas
-the installation on virtual environment is strongly recommended.
+ELApy is sensitive to the versions of numpy and pandas,
+and the installation on virtual environment is strongly recommended.
 
 (conda)
 ```shell
 conda create -n ela python=3.12.9
 ```
-numpy<=1.26.4, pandas==2.2.3, scipy<=1.11.4 is required for ELApy.
+
 ```shell
 conda activate ela
 conda install -c conda-forge pybind11 pygam pandas numpy scipy=1.11.4
+# numpy<=1.26.4, pandas==2.2.3, scipy<=1.11.4 is required for ELApy.
 ```
 
 You can also install them via pip.
@@ -46,8 +47,8 @@ You can also install them via pip.
 pip install pybind11 pygam numpy pandas 
 ```
 
-For visualiziation, the following packages are also required.
 ```shell
+# For visualiziation
 conda install -c conda-forge seaborn matplotlib scikit-learn
 ```
 

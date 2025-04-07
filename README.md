@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/badge/License-BSD_2--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 
 # ELApy
-ELApy is the python package provides the interface of energy landscape analysis ([kecosz](https://github.com/kecosz/rELA)).
+ELApy provides the interface of energy landscape analysis ([kecosz](https://github.com/kecosz/rELA)).
 
 # Installation
 ELApy is a python library that relies on the custom cpp modules based on the Rpackage([hiroakif93](https://github.com/hiroakif93)). 
@@ -89,6 +89,10 @@ python test_run_ELA.py
 ```
 
 If there is no error message, then everything is all set for you!
+
+# Running with Google colab
+If you want to try ELApy without the setup on your local environment, 
+the easiest way is to run "ELApy_tutorial_colab.ipynb" using Google colab.
 
 Reference
 -----------

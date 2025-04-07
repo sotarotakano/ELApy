@@ -63,7 +63,7 @@ conda install -c conda-forge seaborn matplotlib scikit-learn
 First download ELApy, then download carma (https://github.com/RUrlus/carma.) and place it in ELApy.
 
 ```shell
-git clone https://github.com/sotarotakano/ELApy.git
+git clone "https://github.com/sotarotakano/ELApy.git"
 cd ELApy
 git clone "https://github.com/RUrlus/carma.git"
 ```

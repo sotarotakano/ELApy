@@ -101,4 +101,4 @@ If you want to try ELApy without the setup on your local environment,
 the easiest way is to run "ELApy_tutorial_colab.ipynb" using Google colab.
 
 The link to the notebook:
-[colab notebook](https://github.com/kecosz/elahttps://drive.google.com/file/d/1oBT14LwxubWXf8o-TSxYT970T2kIpgvK/view?usp=sharing)
+[colab notebook](https://drive.google.com/file/d/1oBT14LwxubWXf8o-TSxYT970T2kIpgvK/view?usp=sharing)

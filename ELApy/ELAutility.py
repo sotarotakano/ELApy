@@ -1,18 +1,17 @@
-import sys
-sys.path.append("..") 
 import numpy as np
 import pandas as pd
 import math
 import itertools as it
 import time
-
+import sys
 import os
 import copy
+from multiprocessing import Pool
 import itertools as it
 import time
 
 # import C++ modules
-from cpp.ELA import *
+from ELApy.cpp.ELA import *
 
 # other common modules
 import warnings
@@ -163,7 +162,7 @@ def Bi(h,J,xi):
     
     Parameters
     -----------
-    x : list, pandas.Series or numpy.array
+    xi : list, pandas.Series or numpy.array
         community composition array in a target point
         
     h : numpy.array
@@ -212,6 +211,7 @@ def cEnergy(x, h, J):
     E = -x @ h - x @ (x @ J) / 2
     
     return E
+
 
 def CDigitsInteger(binary_composition):
     '''The function for converting binary composition array to
@@ -268,3 +268,89 @@ def reformatting_result(ss_pruned,ss_df,tipping_df,ocmatrix,hest,Jest):
     tippingpoints = np.array(tippingpoints)
     
     return ssidxs, ssenergies, tippingpoints, tippingenergies
+
+
+
+
+def logmon(y, h, J):
+    """
+    Parameters
+    -----------
+    x : list, pandas.Series or numpy.array
+        community composition array in a target point
+        
+    h : numpy.array
+        unobserved environmental fator
+        
+    J : numpy.array
+        interspecies interaction matrix
+    """
+    term = -h - y @ J
+    result = 1 / (1 + np.exp(term))
+    return result
+
+
+def OnestepHBS(y, logmo):
+    """
+    y: (n, m) numpy array
+    logmo: (n, m) numpy array
+    """
+    n, m = y.shape
+    updated_y = y.copy()
+
+    for i in range(n):
+        position = np.random.randint(m)  # Sample position [0, m)
+        if np.random.rand() < logmo[i, position]:
+            ne = 1
+        else:
+            ne = 0
+        updated_y[i, position] = ne
+
+    return updated_y
+
+def HeatBath(steps, nsamples, h, J):
+    """
+    steps: int, number of iterations
+    nproc: int, number of parallel chains
+    h: (m,) vector
+    J: (m, m) matrix
+    """
+    nspecies = len(h)
+    y = np.zeros((nsamples, nspecies))
+
+    for _ in range(steps):
+        logmo = logmon(y, h, J)
+        y = OnestepHBS(y, logmo)
+
+    return y
+
+
+def hb_paramgen(nspecies):
+    h_act = np.random.uniform(-2, 2, size=nspecies)
+    # rnp: 
+    def rnp():
+        tuples = np.array(list(it.combinations(range(nspecies), 2)))
+        rnp_list = []
+        for pair in tuples:
+            if np.random.rand() < 0.5:
+                rnp_list.append(pair[::-1])  # reverse
+            else:
+                rnp_list.append(pair)
+        return np.array(rnp_list)
+
+    # generate_matrix
+    def generate_matrix(rnp_list):
+        ma = np.zeros((nspecies, nspecies))
+        for index in rnp_list:
+            if np.random.rand() < 1:
+                value = np.random.uniform(-2, 2)
+                ma[index[0], index[1]] = value
+        return ma
+
+    rnp_list = rnp()
+    ma = generate_matrix(rnp_list)
+
+    # j.act
+    j_act = ma + ma.T
+
+    return h_act, j_act

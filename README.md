@@ -29,7 +29,7 @@ brew install gcc armadillo
 
 #### For Linux
 ```shell
-sudo apt -y install libtool texinfo libarmadillo-dev cmake
+sudo apt -y install libtool texinfo libarmadillo-dev libopenblas-dev cmake
 ```
 
 

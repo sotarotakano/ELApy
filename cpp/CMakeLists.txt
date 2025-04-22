@@ -7,7 +7,7 @@ set(CMAKE_BUILD_TYPE Debug)
 add_subdirectory(carma)
 
 find_package(BLAS REQUIRED)
-find_package(LAPACK_REQUIRED)
+find_package(LAPACK REQUIRED)
 find_package(Python 3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG REQUIRED)
 find_package(Armadillo REQUIRED)

@@ -77,7 +77,7 @@ mkdir build && cd build
 cmake ..
 make
 cd ..
-find ./build -name”*.so” | xargs -I% mv % .
+find ./build -name "*.so" | xargs -I% mv % .
 ```
 Although CMake basically can find pybind11 modules without additional settings,
 the manual setting of environmenral path is usually required.

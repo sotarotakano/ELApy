@@ -6,6 +6,8 @@ set(CMAKE_BUILD_TYPE Debug)
 
 add_subdirectory(carma)
 
+find_package(BLAS REQUIRED)
+find_package(LAPACK_REQUIRED)
 find_package(Python 3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG REQUIRED)
 find_package(Armadillo REQUIRED)
@@ -21,6 +23,7 @@ target_include_directories(StochOpt PRIVATE
 target_link_libraries(StochOpt PRIVATE
     pybind11::module
     ${ARMADILLO_LIBRARIES}
+    ${BLAS_LIBRARIES}
     carma::carma
 )
 
@@ -35,5 +38,6 @@ target_include_directories(ELA PRIVATE
 target_link_libraries(ELA PRIVATE
     pybind11::module
     ${ARMADILLO_LIBRARIES}
+    ${BLAS_LIBRARIES}
     carma::carma
 )

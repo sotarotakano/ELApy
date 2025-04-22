@@ -29,7 +29,7 @@ brew install gcc armadillo
 
 #### For Linux
 ```shell
-sudo apt -y install libtool texinfo libarmadillo-dev
+sudo apt -y install libtool texinfo libarmadillo-dev cmake
 ```
 
 
@@ -64,7 +64,7 @@ First download ELApy, then download carma (https://github.com/RUrlus/carma.) and
 
 ```shell
 git clone "https://github.com/sotarotakano/ELApy.git"
-cd ELApy
+cd ELApy/cpp
 git clone "https://github.com/RUrlus/carma.git"
 ```
 
@@ -72,8 +72,7 @@ git clone "https://github.com/RUrlus/carma.git"
 The required cpp modules can be bullt using the attached CMakeLists.txt.
 The built packages should be finally moved to ./cpp.
 
-```shell
-cd cpp
+```shell (run the following commands in ELApy/cpp directory)
 mkdir build && cd build
 cmake ..
 make

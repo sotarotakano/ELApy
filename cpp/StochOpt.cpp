@@ -260,6 +260,11 @@ const int& totalit=1000,const double& lambda=0.01, const int& intv=100, bool run
     //  }
         
     }
+    // Add (2025/5/6)
+    int samplepoints = paramsmon.n_rows;
+    upds.resize(samplepoints);
+    points.resize(samplepoints);
+    
     upds[totalrows-1] = arma::mean(arma::vectorise(arma::abs(ydif)/nlocation));
     points[totalrows-1] = totalit-1;
     // ========================================= //
@@ -561,6 +566,11 @@ py::array_t<double> fullSA_cpp(const py::array_t<double>& ocData_arr, const py::
     
   }
   // -- summarize results 
+  // Add (2025/5/6)
+  int samplepoints = paramsmon.n_rows;
+  upds.resize(samplepoints);
+  points.resize(samplepoints);
+  
   upds[totalrows-1] = arma::mean(arma::vectorise(arma::abs(ydif)/nlocation));
   points[totalrows-1] = totalit-1;
   // ========================================= //

@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/badge/License-BSD_2--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 
-# ELApy
-ELApy provides the interface of energy landscape analysis ([kecosz](https://github.com/kecosz/ela)).
+# pyELA
+pyELA provides the interface of energy landscape analysis ([kecosz](https://github.com/kecosz/ela)).
 
 Reference
 -----------
@@ -10,7 +10,7 @@ Suzuki, K., Nakaoka, S., Fukuda, S., & Masuya, H. (2021).
 across environmental gradients." Ecological Monographs.
 
 # Installation
-ELApy is a python library that relies on the custom cpp modules based on the Rpackage([hiroakif93](https://github.com/hiroakif93)). 
+pyELA is a python library that relies on the custom cpp modules based on the Rpackage([hiroakif93](https://github.com/hiroakif93)). 
 The custom cpp modules are required to be built by CMake build with integrating "carma package" . See the following instruction for details.
 
 
@@ -34,7 +34,7 @@ sudo apt -y install libtool texinfo libarmadillo-dev libopenblas-dev cmake
 
 
 ### Step 2. Installing python libraries
-ELApy is sensitive to the versions of numpy and pandas,
+pyELA is sensitive to the versions of numpy and pandas,
 and the installation on virtual environment is strongly recommended.
 
 (conda)
@@ -45,7 +45,7 @@ conda create -n ela python=3.12.9
 ```shell
 conda activate ela
 conda install -c conda-forge pybind11 pygam pandas numpy scipy=1.11.4
-# numpy<=1.26.4, pandas==2.2.3, scipy<=1.11.4 is required for ELApy.
+# numpy<=1.26.4, pandas==2.2.3, scipy<=1.11.4 is required for pyELA.
 ```
 
 You can also install them via pip.
@@ -58,13 +58,13 @@ pip install pybind11 pygam numpy pandas
 conda install -c conda-forge seaborn matplotlib scikit-learn
 ```
 
-### Step 3. Download ELApy and carma from GitHub
+### Step 3. Download pyELA and carma from GitHub
 
-First download ELApy, then download carma (https://github.com/RUrlus/carma.) and place it in ELApy.
+First download pyELA, then download carma (https://github.com/RUrlus/carma.) and place it in pyELA.
 
 ```shell
-git clone "https://github.com/sotarotakano/ELApy.git"
-cd ELApy/cpp
+git clone "https://github.com/sotarotakano/pyELA.git"
+cd pyELA/cpp
 git clone "https://github.com/RUrlus/carma.git"
 ```
 
@@ -72,7 +72,7 @@ git clone "https://github.com/RUrlus/carma.git"
 The required cpp modules can be bullt using the attached CMakeLists.txt.
 The built packages should be finally moved to ./cpp.
 
-```shell (run the following commands in ELApy/cpp directory)
+```shell (run the following commands in pyELA/cpp directory)
 mkdir build && cd build
 cmake ..
 make
@@ -96,8 +96,8 @@ python test_run_ELA.py
 If there is no error message, then everything is all set for you!
 
 # Running with Google colab
-If you want to try ELApy without the setup on your local environment, 
-the easiest way is to run "ELApy_tutorial_colab.ipynb" using Google colab.
+If you want to try pyELA without the setup on your local environment, 
+the easiest way is to run "pyELA_tutorial_colab.ipynb" using Google colab.
 
 The link to the notebook:
 [colab notebook](https://drive.google.com/file/d/1oBT14LwxubWXf8o-TSxYT970T2kIpgvK/view?usp=sharing)
